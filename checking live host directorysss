@@ -1,0 +1,55 @@
+Remember to add -sn if you are only interested in host discovery without port-scanning. Omitting -sn will let Nmap default to scanning live hosts for ports.
+--> ICMP PING (-sn)
+nmap -sL 'machine ip' -> 
+this will scan all the  local network for host.
+this option gives you a detailed list of hosts that Nmap will scan without actually scanning them.
+.
+nmap -sn 'machine ip' -> 
+If you want to use Nmap to discover online hosts (outside the local network) without port-scanning the live systems.
+.
+nmap -PR -sn 'machine ip' -> 
+If you want Nmap only to perform an ARP scan without port-scanning,
+where -PR indicates that you only want an ARP scan. ARP scan is possible only if you are on the same subnet as the target systems.
+.
+nmap -PE -sn 'machine ip' -> 
+To use ICMP echo requests to discover live hosts, add the option -PE option. (Remember to add -sn if you don’t want to follow that with a port scan.)
+.
+nmap -PP -sn 'machine ip' -> 
+it tells Nmap to use ICMP timestamp requests.Because ICMP echo requests tend to be blocked. 
+.
+nmap -PM -sn 'machine ip' -> 
+Similarly, Nmap uses address mask queries (ICMP Type 17) and checks whether it gets an address mask reply (ICMP Type 18).live hosts are expected to reply to ICMP address mask requests.
+.
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--> TCP PING (-sn)
+nmap -PS -sn 'machine ip' -> 
+If you want Nmap to use TCP SYN ping. you can do so via the option -PS followed by the port number, range, list, or a combination of them. 
+For example, -PS21 will target port 21, while -PS21-25 will target ports 21, 22, 23, 24, and 25. Finally, -PS80,443,8080 will target the three ports 80, 443, and 8080.
+.
+nmap -PA -sn 'machine ip' -> 
+this sends a packet with an ACK flag set. You must run Nmap as a privileged user to accomplish this.
+If you try it as an unprivileged user, Nmap will attempt a 3-way handshake.By default, port 80 is used.
+.
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+UDP PING (-sn)
+ Finally, we can use UDP to discover if the host is online. Unlike a TCP SYN ping, sending a UDP
+packet to an open port is not expected to elicit a reply. However, if we send a UDP packet to a
+closed UDP port, we expect to get an ICMP port-unreachable packet; this indicates that the
+target system is up and available.
+.
+.
+nmap -PU -sn 'machine ip' ->
+The syntax to specify the ports is similar to that of TCP SYN ping and TCP ACK ping
+.
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Reverse DNS (rDNS) (-R)
+is the process of resolving an IP address to a hostname (the opposite of normal DNS). 
+Instead of asking “What is the IP of example.com?”, you ask “What domain name is assigned to 10.200.6.15?”
+.
+nmap -R 'machine ip' -> 
+In Nmap, using -R forces reverse lookups for all discovered hosts, while -n disables them. This helps identify system roles (e.g., mail.company.local, dc01.domain.com)
+However, rDNS records aren’t always configured or accurate,so results may be missing or misleading.
+By default, Nmap will look up online hosts; however, you can use the option -R to query the DNS server even for offline hosts. 
+.
+
+nmap -PU -sn 'machine ip' -> The syntax to specify the ports is similar to that of TCP SYN ping and TCP ACK ping
