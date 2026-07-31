@@ -1,1 +1,0 @@
-nmap -sL 'machine ip' -> this will scan all the network for host . this option gives you a detailed list of hosts that Nmap will scan without actually scanning them.
