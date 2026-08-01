@@ -1,0 +1,59 @@
+nmap give us six states in which it gives us the result
+. 
+->
+~An open port indicates that a service is listening on the specified port.
+~A closed port indicates that no service is listening on the specified port, although the port is accessible. By accessible, we mean that it is reachable and is not blocked by a firewall or other security appliances/programs.
+.
+~Filtered means that Nmap cannot determine whether the port is open or closed because it is not accessible.
+~This state is usually due to a firewall preventing Nmap from reaching that port. Nmap’s packets may be blocked from reaching the port; alternatively, responses may be blocked from reaching Nmap’s host.
+.
+~Unfiltered means that Nmap cannot determine whether the port is open or closed, even though the port is accessible. This state is encountered when using an ACK scan -sA.
+.
+~Open|Filtered: This means that Nmap cannot determine whether the port is open or filtered.
+.
+~Closed|Filtered: This means that Nmap cannot decide whether a port is closed or filtered.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TCP PORT SCAN 
+nmap -sT 'machine ip' -> (connect scan)
+~it is basic TCP scan for scaning TCP ports 
+.
+(-F) command -> 
+~it stands for fast scan it will only scan for top 100 ports instand of top 1000 ports 
+~example: nmap -F 192.168.100.1
+.
+(-r) command ->
+~added to scan the ports in consecutive order instead of random order. 
+~This option is useful for testing whether ports open consistently. 
+~for instance, when a target boots up.
+.
+nmap -sS 'machine ip' -> (only for scan not connection)
+~This scan does not need to complete the TCP 3-way handshake
+~ instead, it tears down the connection after receiving a response from the server.
+~ Because we didn’t establish a TCP connection, the scan is less likely to be logged.
+.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+UDP scans -> 
+.
+nmap -sU 'machine ip'-> 
+~UDP is a connectionless protocol; hence, it does not require a handshake for connection establishment
+~ We cannot guarantee that a service listening on a UDP port would respond to our packets.
+~However, if a UDP packet is sent to a closed port, an ICMP port unreachable error (type 3, code 3) is returned.
+~You can select UDP scan using the -sU option; moreover, you can combine it with another TCP scan.
+.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SCAN timings -> 
+(-T) commands ->
+1.-T0 slow 
+~scans one port at a time and waits 5 minutes between sending each probe.
+2.-T1 sneaky
+~ is often used during real engagements where stealth is more important.
+3.-T2 polite
+~used for normal scan where stealth is a bit compromised.
+4.-T3 normal 
+~jsut normal
+5.-T4 aggerasive
+~it is often used during CTFs and when learning to scan on practice targets.
+6.-T5 insane
+~is the most aggressive in terms of speed; however, 
+~this can affect the accuracy of the scan results due to the increased likelihood of packet loss
+
