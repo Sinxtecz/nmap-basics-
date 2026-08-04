@@ -1,0 +1,64 @@
+In other words, this type of scan is better suited to discovering firewall rule sets and configurations.
+you will learn which ports were not blocked by the firewall. 
+.
+<-TYPE OF ADVANCE PORT SCANS IN NMAP->
+.
+Null Scan - Send a TCP packet with no flags set to infer open ports from the lack of a response.
+.
+FIN Scan - Send a TCP packet with only the FIN flag to probe ports without initiating a connection.
+.
+Xmas Scan - Set FIN, PSH, and URG flags simultaneously to probe ports behind stateless firewalls.
+.
+Maimon Scan - Set FIN and ACK flags together to exploit a behaviour found in certain BSD-derived systems.
+.
+ ACK Scan - Send a packet with only the ACK flag to map firewall rules rather than discover open ports.
+.
+Window Scan - Examine the TCP Window field in RST responses to differentiate open from closed ports.
+.
+Custom Scan - Use --scanflags to craft your own TCP flag combinations for tailored probing.
+.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SCANS:
+.
+NULL scan ->
+nmap -sN 'machine ip '
+~A TCP packet with no flags set will not trigger any response when it reaches an open port.
+~a lack of reply in a null scan indicates that either the port is open or a firewall is blocking the packet.
+~However, we expect the target server to respond with an RST packet if the port is closed.
+.
+FIN scan ->
+nmap -sF 'machine ip' .
+~The FIN scan sends a TCP packet with the FIN flag set.
+~Similarly, no response will be sent if the TCP port is open.
+.
+XMAS SCAN ->
+nmap -sX 'machine ip'
+~The Xmas scan gets its name from the Christmas tree lights.
+~An Xmas scan sets the FIN, PSH, and URG flags simultaneously.
+.
+ACK scan -> 
+nmap -sA 'machine ip'
+~an ACK scan will send a TCP packet with the ACK flag set.
+~the target would respond to the ACK with RST regardless of the port's state. 
+.
+WINDOW scan ->
+nmap -sW 'machine ip'
+~Another similar scan is the TCP window scan. The TCP window scan is almost identical to the ACK scan.
+~however, it examines the TCP Window field of the RST packets returned. 
+~On specific systems, this can reveal that the port is open.
+.
+CUSTOM flag scan ->
+nmap --scanflag 'CUSTOM FLAG' 'machine ip'
+~if you develop your own custom scan, you need to understand how the different ports will behave to correctly interpret the results in different scenarios.
+~Finally, it is essential to note that the ACK and window scans were highly effective in helping us map the firewall rules.
+~it is vital to remember that just because a firewall is not blocking a specific port,
+it does not necessarily mean that a service is listening on that port.
+~ACK and window scans are exposing the firewall rules, not the services
+.
+SPOOFED IP's ->
+nmap -S 'ip that is to be spoofed' 'ur machine ip'
+DECOY scan -> 
+nmap -D RND:number 'machine ip'
+ZOMBIE scans -> 
+nmap -sI 'zombie ip' 'machine ip'
+
